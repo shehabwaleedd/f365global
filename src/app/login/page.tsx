@@ -12,7 +12,7 @@ import Image from 'next/image';
 const Page = () => {
     const [errorFromDataBase, setErrorFromDataBase] = useState('')
     const [isLoading, setIsLoading] = useState(false);
-    const { handleLoginSuccess, isLoggedIn, setUser } = useAuth();
+    const { handleLoginSuccess, isLoggedIn } = useAuth();
 
     const router = useRouter();
     let validationSchema = yup.object({
@@ -36,8 +36,6 @@ const Page = () => {
                 const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/user/login`, values);
 
                 if (response.status === 200 && response.data.message === "success") {
-                    setUser(response.data.data);
-                    console.log('User data:', response.data.data);
                     handleLoginSuccess(response.data.token, response.data.data);
                 }
             } catch (err: any) {

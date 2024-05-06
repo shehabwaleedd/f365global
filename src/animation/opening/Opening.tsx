@@ -1,10 +1,11 @@
+'use client'
 import React, { useEffect, useState, useRef } from 'react';
 import gsap from 'gsap';
 import styles from "./style.module.scss"
 import { words } from "./data";
+import { useAnimation } from '@/context/AnimationContext';
 
-
-const introAnimation = (wordGroupsRef) => {
+const introAnimation = (wordGroupsRef: React.RefObject<any>) => {
     const tl = gsap.timeline();
     tl.to(wordGroupsRef.current, {
         yPercent: -80,
@@ -15,7 +16,7 @@ const introAnimation = (wordGroupsRef) => {
     return tl;
 };
 
-const collapseWords = (wordGroupsRef, openingRef, setHasAnimationShown) => {
+const collapseWords = (wordGroupsRef: React.RefObject<any>, openingRef: React.RefObject<any>, setHasAnimationShown: React.Dispatch<React.SetStateAction<boolean>>) => {
     const tl = gsap.timeline();
     tl.to(wordGroupsRef.current, {
         "clip-path": "polygon(0% 50%, 100% 50%, 100% 50%, 0% 50%)",
@@ -26,7 +27,7 @@ const collapseWords = (wordGroupsRef, openingRef, setHasAnimationShown) => {
                 opacity: 0,
                 display: "none",
                 onComplete: () => {
-                    sessionStorage.setItem("hasAnimationShown", true);
+                    sessionStorage.setItem("hasAnimationShown", "true");
                     setHasAnimationShown(true);
                 }
             })
@@ -35,7 +36,8 @@ const collapseWords = (wordGroupsRef, openingRef, setHasAnimationShown) => {
 
     return tl;
 };
-const progressAnimation = (progressRef, progressNumberRef) => {
+
+const progressAnimation = (progressRef: React.RefObject<any>, progressNumberRef: React.RefObject<any>) => {
     const tl = gsap.timeline();
 
     // Animation for the progress bar scaling
@@ -72,10 +74,12 @@ const progressAnimation = (progressRef, progressNumberRef) => {
         textContent: "100",
         duration: 8,
         ease: "none",
-        snap: {textContent: 1},
-        onUpdate: function() {
+        snap: { textContent: 1 },
+        onUpdate: function () {
             // Update text content to include a percentage sign
-            progressNumberRef.current.textContent = `${this.targets()[0].textContent}%`;
+            if (progressNumberRef.current) {
+                progressNumberRef.current.textContent = `${this.targets()[0].textContent}%`;
+            }
         },
     }, "<");
 
@@ -83,12 +87,13 @@ const progressAnimation = (progressRef, progressNumberRef) => {
 };
 
 
-const Opening = ({ timeline, setHasAnimationShown }) => {
+const Opening = () => {
     const loaderRef = useRef(null);
     const progressRef = useRef(null);
     const progressNumberRef = useRef(null);
     const wordGroupsRef = useRef(null);
     const openingRef = useRef(null);
+    const { renderingOpening, setHasAnimationShown, timeline } = useAnimation();
     useEffect(() => {
         timeline &&
             timeline
@@ -98,28 +103,34 @@ const Opening = ({ timeline, setHasAnimationShown }) => {
     }, [setHasAnimationShown, timeline]);
 
     return (
-        <div className={styles.loader__wrapper} ref={openingRef}>
-            <div className={styles.loader__progressWrapper}>
-                <div className={styles.loader__progress} ref={progressRef}></div>
-                <span className={styles.loader__progressNumber} ref={progressNumberRef}>
-                    0
-                </span>
-            </div>
-            <div className={styles.loader} ref={loaderRef}>
-                <div className={styles.loader__words}>
-                    <div className={styles.loader__overlay}></div>
-                    <div ref={wordGroupsRef} className={styles.loader__wordsGroup}>
-                        {words.map((word, index) => {
-                            return (
-                                <span key={index} className={styles.loader__word}>
-                                    {word}
-                                </span>
-                            );
-                        })}
+        <>
+            {renderingOpening ? (
+                <div className={styles.loader__wrapper} ref={openingRef}>
+                    <div className={styles.loader__progressWrapper}>
+                        <div className={styles.loader__progress} ref={progressRef}></div>
+                        <span className={styles.loader__progressNumber} ref={progressNumberRef}>
+                            0
+                        </span>
+                    </div>
+                    <div className={styles.loader} ref={loaderRef}>
+                        <div className={styles.loader__words}>
+                            <div className={styles.loader__overlay}></div>
+                            <div ref={wordGroupsRef} className={styles.loader__wordsGroup}>
+                                {words.map((word, index) => {
+                                    return (
+                                        <span key={index} className={styles.loader__word}>
+                                            {word}
+                                        </span>
+                                    );
+                                })}
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            ) : (
+                <></>
+            )}
+        </>
     );
 };
 

@@ -46,7 +46,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState<UserType | null>(null);
     const userId = typeof window !== 'undefined' ? localStorage.getItem('userId') : null;
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
     const [isLoginOpen, setIsLoginOpen] = useState<boolean>(false);
 
@@ -62,6 +62,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         localStorage.setItem('userId', userData._id);
         setUser(userData);
         setIsLoggedIn(true);
+        console.log('User Data:', userData);
+
         router.push('/account');
     };
 
@@ -71,6 +73,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         localStorage.setItem('hasAnimationShown', 'true');
         localStorage.setItem('userId', userData._id);
         setUser(userData);
+        console.log('User Data:', userData);
         setIsLoggedIn(true);
     };
 

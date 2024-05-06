@@ -10,8 +10,9 @@ import Image from "next/image"
 import { AnimatedH1 } from "../../animation/animatedH1";
 import TellUsYourStory from '../tellStory';
 import RoundedButton from '../../animation/RoundedButton';
-
-const Landing = ({ windowWidth } : { windowWidth: number}) => {
+import useWindowWidth from '@/hooks/useWindowWidth'
+const Landing = () => {
+    const windowWidth = useWindowWidth()
     const [becomePartner, setBecomePartner] = useState(false)
     const handleBecomePartner = () => {
         setBecomePartner(!becomePartner)
@@ -89,7 +90,7 @@ const Landing = ({ windowWidth } : { windowWidth: number}) => {
                 <div className={styles.landing__left}>
                     <div className={styles.landing__left_content}>
                         <div className={styles.landing__left_content_upper}>
-                            {windowWidth < 1156 ? (
+                            {windowWidth && windowWidth < 1156 ? (
                                 <>
                                     <motion.div className={styles.landing__left_content_upper_content} >
                                         {AnimatedH1('A Creative Agency')}
@@ -122,7 +123,7 @@ const Landing = ({ windowWidth } : { windowWidth: number}) => {
                             ))
                         }
                         <div className={styles.landing__left_content_bottom}>
-                            {windowWidth > 1200 ? (
+                            {windowWidth && windowWidth > 1200 ? (
                                 <p>
                                     We are a creative agency in Dubai, specializing in wellness and  career coaching <br /> for young influencers and entrepreneurs. We offer a range <br /> of services to help you achieve your goals.
                                 </p>
@@ -157,7 +158,7 @@ const Landing = ({ windowWidth } : { windowWidth: number}) => {
 
                     </div>
                 </div>
-                <Image src="/mainImage.webp" alt="F365 Movement" width={windowWidth > 1200 ? 1800 : 500} height={windowWidth > 1200 ? 800 : 500} priority={true} />
+                <Image src="/mainImage.webp" alt="F365 Movement" width={windowWidth && windowWidth > 1200 ? 1800 : 500} height={windowWidth && windowWidth > 1200 ? 800 : 500} priority={true} />
             </section>
             <AnimatePresence mode='wait'>
                 {becomePartner && <Calendly onClose={handleBecomePartner} />}

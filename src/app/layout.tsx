@@ -4,6 +4,7 @@ import Navbar from "../components/navbar/Navbar";
 import dynamic from "next/dynamic";
 const Footer = dynamic(() => import("../components/footer"), { ssr: false });
 import { AuthProvider } from "../context/AuthContext";
+import { AnimationProvider } from "../context/AnimationContext";
 
 export const viewport = {
   width: "device-width",
@@ -64,16 +65,18 @@ export function generateMetadata() {
 
 }
 
-export default function RootLayout({ children }: { children: JSX.Element | JSX.Element[]}) {
+export default function RootLayout({ children }: { children: JSX.Element | JSX.Element[] }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="App" >
         <AuthProvider>
+          <AnimationProvider>
             <Navbar />
             <SmoothScrolling>
               {children}
             </SmoothScrolling>
             <Footer />
+          </AnimationProvider>
         </AuthProvider>
       </body>
     </html>

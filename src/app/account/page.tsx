@@ -32,7 +32,7 @@ const Account = () => {
 
     const handleAvatarChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const token = localStorage.getItem('token');
-        const { avatar } = user || {};
+        const avatar = user?.avatar;
         const formData = new FormData();
         if (avatar) formData.append('avatar', avatar.url);
         if (event?.currentTarget?.files) {
@@ -55,9 +55,8 @@ const Account = () => {
         }
     };
 
-    if (loading) return <Loading height={100} />;
-    if (typeof error === 'string') return <div>Error: {error}</div>;
-    if (!user || !isLoggedIn) return <div>loading...</div>
+    // if (typeof error === 'string') return <div>Error: {error}</div>;
+    // if (!user || !isLoggedIn) return <div>loading...</div>
 
 
 
@@ -76,7 +75,7 @@ const Account = () => {
                 <div className={styles.account__lower_left}>
                     <div className={styles.account__lower_left_upper}>
                         <div className={styles.account_lower_left_upper_top}>
-                            <Image src={user.avatar ? user.avatar.url : '/user.png'} alt="user" width={300} height={300} quality={100} priority={true} />
+                            <Image src={user?.avatar ? user.avatar.url : '/user.png'} alt="user" width={300} height={300} quality={100} priority={true} />
                         </div>
 
                         <div className={styles.account_lower_left_upper_middle}>
@@ -84,11 +83,11 @@ const Account = () => {
                             <label htmlFor="avatar">Change Profile Picture</label>
                         </div>
                         <div className={styles.account_lower_left_upper_bottom}>
-                            <h2>{user.name}</h2>
+                            <h2>{user?.name}</h2>
                         </div>
                     </div>
                     <div className={styles.account__lower_left_lower}>
-                        {user.role === 'superAdmin' ? <SuperAdminView handleOpen={handleOpen} /> : user.role === 'admin' ? <AdminView handleOpen={handleOpen} /> : <UserView handleOpen={handleOpen} />}
+                        {user?.role === 'superAdmin' ? <SuperAdminView handleOpen={handleOpen} /> : user?.role === 'admin' ? <AdminView handleOpen={handleOpen} /> : <UserView handleOpen={handleOpen} />}
                     </div>
                 </div>
 

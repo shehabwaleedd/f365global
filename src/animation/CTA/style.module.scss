@@ -1,0 +1,44 @@
+.roundedButton {
+    border-radius: 2rem;
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    padding: 0.4rem 1rem;
+    gap: 0.5rem;
+
+    svg,
+    button {
+        position: relative;
+        z-index: 1;
+        transition: var(--animation-primary);
+        color: var(--title-color);
+        font-size: 1.15rem;
+    }
+
+    svg {
+        margin-top: 0.2rem;
+    }
+
+    &:hover {
+
+        p,
+        a {
+            color: var(--title-color);
+        }
+
+        border: 1px solid var(--title-color);
+
+    }
+}
+
+.circle {
+    width: 100%;
+    height: 150%;
+    position: absolute;
+    border-radius: 50%;
+    top: 100%;
+}

@@ -1,0 +1,37 @@
+.body {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 0.5rem;
+    margin-top: 1rem;
+    padding: 2rem;
+    a {
+        color: var(--title-color);
+        text-decoration: none;
+        display: flex;
+    }
+
+    p {
+        margin: 0px;
+        display: flex;
+        overflow: hidden;
+        font-family: var(--title-font);
+        font-size: 2rem;
+        color: var(--title-color);
+    }
+}
+
+@media only screen and (min-width: 600px) {
+    .body {
+        max-width: 1200px;
+        margin-top: 80px;
+        display: flex;
+        width: 100%;
+        flex-wrap: wrap;
+
+
+        p {
+            font-size: 5vw;
+            padding-right: 2vw;
+        }
+    }
+}

@@ -1,0 +1,31 @@
+.marquee {
+    width: 100%;
+    border-top: 1px solid var(--container-color);
+    border-bottom: 1px solid var(--container-color);
+    text-align: center;
+    overflow: hidden;
+    height: 100%;
+    position: relative;
+    margin: 0 auto;
+    background-color: var(--accent-color);
+    h3 {
+        font-size: var(--biggest-font-size);
+        font-weight: 700;
+        text-transform: uppercase;
+        font-family: var(--body-font);
+        display: flex;
+        gap: 0.5rem;
+        margin: 0 1rem;
+        color: var(--container-color);
+        padding-top: 0;
+        margin-top: 0;
+
+        @media (max-width: 996px) {
+            font-size: 3.5rem;
+        }
+
+        @media (max-width: 520px) {
+            font-size: 2.5rem;
+        }
+    }
+}

@@ -1,0 +1,201 @@
+.ourProjects {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    margin: 10vh 0;
+    position: relative;
+
+    @media (max-width: 552px) {
+        margin: 10vh 0;
+
+    }
+
+    &__upper {
+        display: flex;
+        width: 100%;
+        align-items: flex-start;
+        padding: 1rem;
+        h2 {
+            font-size: 3rem;
+            text-transform: capitalize;
+            letter-spacing: normal;
+            @media (max-width: 555px) {
+                font-size: 2rem;
+            }
+        }
+    }
+
+
+    &__bottom {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 1rem;
+        gap: 10vh;
+        position: relative;
+
+
+        @media (max-width: 1277px) {
+            top: 0;
+            padding: 0rem;
+        }
+
+        @media (max-width: 677px) {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+
+
+        &_container {
+            display: flex;
+            position: relative;
+            height: 100%;
+            width: 100%;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 2rem;
+            cursor: pointer;
+            gap: 2.5vw;
+
+            @media (max-width: 1277px) {
+                padding: 0.5rem;
+                justify-content: flex-start;
+                align-items: flex-start;
+            }
+
+            @media (max-width: 577px) {
+                flex-direction: column;
+                padding: 0rem;
+                gap: 0;
+            }
+
+            &_image {
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                justify-content: flex-start;
+                align-items: flex-start;
+                z-index: 1;
+                cursor: pointer;
+                width: 100%;
+                overflow: hidden;
+
+                img {
+                    height: 65vh;
+                    width: 100%;
+                    object-fit: cover;
+                    transition: var(--animation-primary);
+                    cursor: pointer;
+                    border-radius: 1rem;
+                    overflow: hidden;
+
+                    @media (max-width: 777px) {
+                        height: 50vh;
+                    }
+                }
+            }
+
+            &_btns {
+                position: relative;
+                top: 1rem;
+                left: 1rem;
+                z-index: 2;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                padding: 3rem;
+
+                &_lower {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.5rem;
+                    width: fit-content;
+                    align-items: flex-start;
+                    justify-content: flex-start;
+
+                    ul {
+                        display: flex;
+                        width: 100%;
+                        gap: 0.4rem;
+                        flex-wrap: wrap;
+                        line-break: anywhere;
+
+                        li {
+                            display: flex;
+                        }
+                    }
+                }
+
+                @media (max-width: 577px) {
+                    padding: 0rem;
+                    justify-content: flex-start;
+                    align-items: flex-start;
+                    left: 0;
+                }
+
+                a {
+                    background-color: transparent;
+                    outline: none;
+                    border-radius: 1rem;
+                    color: var(--title-color);
+                    cursor: pointer;
+                    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+                    padding: 0 0.5rem;
+
+                    @media (max-width: 556px) {
+                        font-size: 0.8rem;
+                    }
+                }
+
+                span {
+                    color: var(--title-color);
+                }
+
+                h2 {
+                    font-size: 3.4rem;
+                    font-family: var(--title-font);
+                    color: var(--title-color);
+                    padding: 0.2rem;
+
+                    @media (max-width: 556px) {
+                        font-size: var(--semi-big-font-size);
+                    }
+                }
+
+                p {
+                    font-size: var(--medium-font-size);
+                    color: var(--title-color);
+                    padding: 0.2rem;
+
+                    @media (max-width: 556px) {
+                        font-size: var(--normal-font-size);
+                    }
+
+                }
+            }
+        }
+    }
+
+    .group {
+        display: flex;
+        gap: 1rem;
+    }
+}
+
+.reverse {
+    flex-direction: row-reverse;
+    width: 100%;
+
+    @media (max-width: 577px) {
+        flex-direction: column;
+    }
+
+    /* Flip layout for even services */
+}

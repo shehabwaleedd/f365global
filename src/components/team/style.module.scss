@@ -1,0 +1,220 @@
+.team {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 2rem;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding-top: 15vh;
+
+    @media (max-width: 1268px) {
+        padding-top: 5vh;
+    }
+
+    &__container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+
+        @media (max-width: 768px) {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+
+        }
+
+        &__left {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            height: 100vh;
+            position: sticky;
+            top: 5rem;
+
+            @media (max-width: 1268px) {
+                position: relative;
+                top: 0;
+                height: 100%;
+                overflow: hidden;
+                align-items: flex-start;
+
+            }
+
+            h3 {
+                font-size: 5vw;
+                color: var(--title-color);
+                font-family: var(--body-font);
+                transition: all 0.3s ease-in-out;
+                line-height: 1.15;
+
+                @media (max-width: 1268px) {
+                    font-size: 5vh;
+                    padding: 0.5rem;
+                }
+
+                @media (max-width: 568px) {
+                    font-size: 7vh;
+                }
+
+
+
+                span {
+                    color: var(--accent-color);
+                }
+            }
+        }
+
+        &__right__content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            gap: 5rem;
+            user-select: none;
+
+            @media (max-width: 768px) {
+                display: flex;
+                gap: 1rem;
+            }
+
+            &_drag {
+                display: flex;
+                width: 100%;
+                height: 100%;
+                position: relative;
+                overflow: hidden;
+                overflow-y: hidden;
+                padding: 1rem;
+
+                &_image {
+                    object-position: center;
+                    margin-right: 1rem;
+                }
+            }
+
+
+            &__column {
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                gap: 4vh;
+
+                @media (max-width: 1268px) {
+                    gap: 1vh;
+                }
+            }
+
+            &__item {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                width: 100%;
+                height: 100%;
+
+                @media (max-width: 1268px) {
+                    object-position: start;
+                    margin-right: 1rem;
+                    width: 240px;
+                    overflow: hidden;
+
+                }
+
+                &_upper {
+                    position: relative;
+
+                    img {
+                        width: 20vw;
+                        height: 30vh;
+                        object-fit: cover;
+                        border-radius: 2rem;
+
+                        @media (max-width: 1268px) {
+                            width: 50vw;
+                            height: 30vh;
+
+
+                        }
+
+                    }
+
+                    &_content {
+                        position: absolute;
+                        top: 2%;
+                        right: 2%;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        align-items: flex-start;
+                        width: 100%;
+                        height: 100%;
+
+                        .svgs {
+                            position: absolute;
+                            right: 1.5%;
+                            top: 1.5%;
+                            display: flex;
+                            gap: 0.5rem;
+
+                            svg {
+                                font-size: 3vh;
+                                color: var(--container-color);
+                                transition: all 0.3s ease-in-out;
+                                cursor: pointer;
+                            }
+                        }
+
+                        .brief {
+                            position: absolute;
+                            left: 3%;
+                            top: 8%;
+                            padding: 1rem;
+                            line-height: 1.2;
+
+                            p {
+                                color: var(--container-color);
+                                font-family: var(--body-font);
+                                font-size: var(--small-font-size);
+
+                                @media (max-width: 456px) {
+                                    font-size: 0.8rem;
+                                    line-height: 1;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                &__details {
+                    h4 {
+                        font-size: 2.5vh;
+                        color: var(--title-color);
+                        font-family: var(--title-font);
+                        transition: all 0.3s ease-in-out;
+                    }
+
+                    p {
+                        font-size: 2vh;
+                        color: var(--text-color);
+                        font-family: var(--body-font);
+                        transition: all 0.3s ease-in-out;
+                    }
+
+                }
+            }
+
+        }
+    }
+}

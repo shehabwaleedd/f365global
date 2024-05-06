@@ -1,0 +1,44 @@
+.team {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 2rem;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    padding-top: 5vh;
+
+    &__container {
+        background-color: var(--container-color);
+
+        &__right__content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            width: 100%;
+            height: 100%;
+            justify-content: start;
+            align-items: start;
+            gap: 2rem;
+            user-select: none;
+
+            @media (max-width: 568px) {
+                display: flex;
+                flex-direction: column;
+            }
+
+            &__column {
+                display: flex;
+                flex-direction: column;
+                position: relative;
+                gap: 4vh;
+
+                @media (max-width: 1268px) {
+                    gap: 2vh;
+                }
+            }
+
+        }
+    }
+}

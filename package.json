@@ -9,16 +9,39 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@davzon/react-country-state-city": "^1.0.10",
+    "@emailjs/browser": "^4.3.3",
+    "@studio-freight/react-lenis": "^0.0.47",
+    "axios": "^1.6.8",
+    "date-fns": "^3.6.0",
+    "formik": "^2.4.6",
+    "framer-motion": "^11.1.7",
+    "gsap": "^3.12.5",
+    "js-cookie": "^3.0.5",
+    "lodash": "^4.17.21",
+    "next": "14.2.3",
+    "plaiceholder": "^3.0.0",
     "react": "^18",
+    "react-country-region-selector": "^3.6.1",
     "react-dom": "^18",
-    "next": "14.2.3"
+    "react-fast-marquee": "^1.6.4",
+    "react-icons": "^5.2.0",
+    "react-intersection-observer": "^9.10.2",
+    "react-quill": "^2.0.0",
+    "react-spinners": "^0.13.8",
+    "sass": "^1.76.0",
+    "sharp": "^0.33.3",
+    "swiper": "^11.1.1",
+    "xlsx": "^0.18.5",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@types/lodash": "^4.17.1",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
-    "eslint-config-next": "14.2.3"
+    "eslint-config-next": "14.2.3",
+    "typescript": "^5"
   }
 }

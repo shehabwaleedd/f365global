@@ -7,7 +7,7 @@ import { useAuth } from '../../context/AuthContext'
 import PersonalInfo from '../../components/accountComponents/personalInfo'
 import ChangePassword from "../../components/accountComponents/changePassword"
 import { AnimatePresence } from 'framer-motion'
-import UserEvents from '../../components/accountComponents/userEvents'
+import UserEvents from '@/components/accountComponents/userEvents'
 import Loading from '../../animation/loading/Loading'
 import SuperAdminView from '../../components/accountViews/superAdmin'
 import AdminView from '../../components/accountViews/admin'

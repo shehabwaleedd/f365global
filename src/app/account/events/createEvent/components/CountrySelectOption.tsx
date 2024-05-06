@@ -1,7 +1,7 @@
 import React from 'react';
 import { useField, useFormikContext } from 'formik';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
-import styles from './page.module.scss';
+import styles from '../page.module.scss';
 
 const CountrySelectInput = ({ name }: { name: string }) => {
     const { setFieldValue } = useFormikContext();

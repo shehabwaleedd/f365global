@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useMemo, useState, useEffect, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
-import axios from 'axios';
+import Cookies from 'js-cookie';
 import { UserType } from '@/types/common';
 
 interface AuthContextType {
@@ -52,60 +52,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const router = useRouter();
 
-    const checkAuth = async () => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            setLoading(false);
-            setIsLoggedIn(false);
-            setError('No token found');
-            return;
-        }
-
-        try {
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/user/authentication`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-
-            if (response.data.message === "success") {
-                setIsLoggedIn(true);
-                fetchUserDetails(token);
-            } else {
-                localStorage.removeItem('token');
-                setIsLoggedIn(false);
-                setError('Authentication failed');
-            }
-        } catch (error: any) {
-            console.error('Authentication error:', error);
-            localStorage.removeItem('token');
-            setIsLoggedIn(false);
-            setError(error.message || 'Unknown authentication error');
-        }
-        setLoading(false);
-    };
-
-    useEffect(() => {
-        checkAuth();
-    }, []);
-
-    const fetchUserDetails = async (token: string) => {
-        try {
-            const response = await axios.get<UserResponse>(`${process.env.NEXT_PUBLIC_BASE_URL}/user`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            setUser(response.data.data[0]);
-            setLoading(false);
-        }
-        catch (error: any) {
-            console.error('Failed to fetch user details:', error);
-            setError(error.message || 'Failed to fetch user details');
-            setLoading(false);
-        }
-
-    };
 
 
 
     const handleLoginSuccess = (token: string, userData: UserType) => {
+        Cookies.set('token', token, { expires: new Date(new Date().getTime() + 30 * 60 * 1000)});   
         localStorage.setItem('token', token);
         localStorage.setItem('hasAnimationShown', 'true');
         localStorage.setItem('userId', userData._id);
@@ -115,6 +66,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     const handleLoginSuccessForm = (token: string, userData: UserType) => {
+        Cookies.set('token', token, { expires: new Date(new Date().getTime() + 30 * 60 * 1000)});   
         localStorage.setItem('token', token);
         localStorage.setItem('hasAnimationShown', 'true');
         localStorage.setItem('userId', userData._id);
@@ -123,10 +75,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     const clearLocalStorage = () => {
+        Cookies.remove('token');
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
         localStorage.removeItem('hasAnimationShown');
-        localStorage.removeItem('wishlist');
     };
 
     const handleLogout = () => {

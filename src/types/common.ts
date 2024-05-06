@@ -19,6 +19,7 @@ export interface EventType {
     googleMapLink: string;
     timeOfEvent: TimeOfEvent;
     address?: string;
+    locationDetails?: string;
 }
 
 interface TimeOfEvent {
@@ -49,6 +50,7 @@ export interface UserType {
     role: string;
     createdAt: string;
     updatedAt: string;
+    company: string;
     country: string;
     region: string;
     phone: string;

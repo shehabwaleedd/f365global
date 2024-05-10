@@ -16,6 +16,7 @@ import "swiper/css/pagination";
 import 'swiper/css/navigation';
 import Image from 'next/image';
 import { CiCirclePlus } from "react-icons/ci";
+import common from "@/app/page.module.scss"
 import { useScroll, useTransform, motion, AnimatePresence } from 'framer-motion';
 
 
@@ -188,14 +189,14 @@ const Testimonials = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className={styles.testimonialsDetailsModal}
+                        className={`${styles.testimonialsDetailsModal} ${isMobile ? common.bottomGlass : common.centeredGlass}`}
                         onClick={handleDetailsClose}>
                         <div className={styles.testimonialsDetailsContent}>
                             <div className={styles.close}> <button onClick={handleDetailsClose}>Close</button> </div>
                             <Image src={selectedTestimonial.img} alt="testimonial" width={200} height={200} />
                             <p>&quot;{selectedTestimonial.text}&quot;</p>
-                            <h4>{selectedTestimonial.name}</h4>
-                            <h5>{selectedTestimonial.position}, {selectedTestimonial.company}</h5>
+                            {/* <h4>{selectedTestimonial.name}</h4> */}
+                            {/* <h5>{selectedTestimonial.position}, {selectedTestimonial.company}</h5> */}
                         </div>
                     </motion.div>
                 )}

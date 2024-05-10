@@ -143,7 +143,9 @@
     margin-top: 10px;
     text-align: left;
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-
+    @media (max-width: 555px) {
+        margin-top: 0;
+    }
     a {
         color: var(--text-color);
         text-decoration: none;
@@ -157,10 +159,12 @@
             background-color: var(--text-color);
             transition: width 0.3s;
         }
+        @media (max-width: 555px) {
+            font-size: var(--small-font-size);
+        }
 
         &:hover {
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-
             &::after {
                 width: 100%;
             }

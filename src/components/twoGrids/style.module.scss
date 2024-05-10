@@ -29,6 +29,7 @@
             flex-direction: column;
             justify-content: flex-start;
             align-items: flex-start;
+            gap: 1rem;
         }
 
         &__left {
@@ -88,6 +89,7 @@
 
                     @media (max-width: 534px) {
                         font-size: var(--big-font-size);
+                        line-height: 1.25;
                     }
                 }
             }
@@ -103,34 +105,8 @@
                     flex-direction: column;
                 }
 
-                h3 {
-                    font-size: var(--body-font-size);
-                    font-family: var(--subtitle-font);
-                    margin-bottom: 1rem;
-                    color: var(--accent-color);
 
-                    @media (max-width: 534px) {
-                        font-size: var(--small-font-size);
-                    }
-                }
-
-                h4 {
-                    font-size: var(--semi-big-font-size);
-                    margin-bottom: 1rem;
-                    width: 100%;
-                    color: var(--title-color);
-                    font-family: var(--subtitle-font);
-
-                    @media (max-width: 1234px) {
-                        font-size: 1.5rem;
-                        width: 60%;
-                    }
-
-                    @media (max-width: 734px) {
-                        font-size: 1.5rem;
-                        width: 100%;
-                    }
-                }
+                
 
                 &_right {
                     display: flex;
@@ -141,6 +117,7 @@
 
                     @media (max-width: 1234px) {
                         width: 100%;
+                        gap: 1.4rem;
                     }
 
                     &_lower {
@@ -151,6 +128,25 @@
 
                         @media (max-width: 534px) {
                             margin-top: 0;
+                        }
+                    }
+
+                    h4 {
+                        font-size: var(--semi-big-font-size);
+                        margin-bottom: 1rem;
+                        width: 100%;
+                        color: var(--title-color);
+                        font-family: var(--subtitle-font);
+    
+                        @media (max-width: 1234px) {
+                            font-size: 1.5rem;
+                            width: 60%;
+                        }
+    
+                        @media (max-width: 734px) {
+                            font-size: 1.5rem;
+                            width: 100%;
+                            margin-bottom: 0.5rem;
                         }
                     }
 

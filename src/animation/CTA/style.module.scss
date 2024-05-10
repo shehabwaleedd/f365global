@@ -10,6 +10,10 @@
     padding: 0.4rem 1rem;
     gap: 0.5rem;
 
+    @media (max-width: 555px) {
+        padding: 0.4rem;
+    }
+
     svg,
     button {
         position: relative;

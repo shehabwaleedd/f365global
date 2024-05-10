@@ -141,31 +141,6 @@
         }
     }
 
-    &__imageWrapper {
-        img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: 70% 50%;
-            border-radius: 1rem;
-
-            @media (max-width: 1143px) {
-                height: 50vh;
-            }
-        }
-
-        display: flex;
-        justify-content: center;
-        overflow: hidden;
-        width: 50vw;
-        height: 100vh;
-        margin: 0 auto;
-        position: relative;
-
-        @media (max-width: 1143px) {
-            height: 50vh;
-        }
-    }
 
     &_left {
         position: relative;
@@ -174,6 +149,9 @@
             width: 100%;
             height: 60vh;
             object-fit: contain;
+        }
+        @media (max-width: 555px) {
+            right: 0;
         }
     }
 }

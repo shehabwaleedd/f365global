@@ -1,7 +1,6 @@
 import React from 'react';
 import { useField, useFormikContext } from 'formik';
-import styles from '../page.module.scss';
-
+import styles from '../../page.module.scss';
 const generateTimeOptions = () => {
     const options = [];
     for (let i = 0; i < 24; i++) {

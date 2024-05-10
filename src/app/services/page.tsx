@@ -3,8 +3,7 @@ import styles from "./page.module.scss"
 import Image from 'next/image';
 import ServicesUpper from "./components/servicesUpper"
 import { services } from '../../components/servicesData';
-import CTA from '../../animation/CTA';
-
+import CTA from '@/animation/CTA';
 
 export function generateMetadata() {
     return {
@@ -67,7 +66,7 @@ const Services = () => {
                                     </p>
                                 </div>
                                 <div className={styles.services__container__content_left_middle}>
-                                    <CTA label="Explore More" href={service.link} />
+                                    <CTA label="Explore More" href={service.link} backgroundColor='#5bd891'/>
                                 </div>
                             </div>
                             <div className={styles.services__container__content_right}>

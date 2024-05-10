@@ -3,9 +3,10 @@ import { useEffect, useState } from 'react';
 import { isAfter } from 'date-fns';
 import { EventType } from '@/types/common';
 
-export const usePublishedEvents = () => {
+export const usePublishedEvents = (page: number) => {
     const [events, setEvents] = useState<EventType[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [totalPages, setTotalPages] = useState<number>(0); 
 
     const sortAndFilterEvents = (events: EventType[]) => {
         const currentDate = new Date();
@@ -25,7 +26,7 @@ export const usePublishedEvents = () => {
     const fetchEvents = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/event`);
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/event?page=${page}`);
             const publishedEvents = response.data.data.result.filter((event: EventType) => event.status === "published");
             const sortedAndFilteredEvents = sortAndFilterEvents(publishedEvents);
             setEvents(sortedAndFilteredEvents);
@@ -38,7 +39,7 @@ export const usePublishedEvents = () => {
 
     useEffect(() => {
         fetchEvents();
-    }, []);
+    }, [page]);
 
 
 

@@ -9,7 +9,7 @@ import { useAuth } from '@/context/AuthContext';
 import { motion } from 'framer-motion';
 import global from "../../app/page.module.scss"
 import { CountryDropdown } from 'react-country-region-selector';
-
+import { toast } from 'sonner';
 
 const LoginForm = ({ isLoginOpen, setIsLoginOpen }: { isLoginOpen: boolean, setIsLoginOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
     const [errorFromDataBase, setErrorFromDataBase] = useState<string>('');
@@ -51,12 +51,18 @@ const LoginForm = ({ isLoginOpen, setIsLoginOpen }: { isLoginOpen: boolean, setI
                     setUser(response.data.data);
                     handleLoginSuccessForm(response.data.token, response.data.data); // Modify this line
                     setIsLoginOpen(false);
+                    if (mode === 'register') {
+                        toast.success('Account created successfully. Please check your email to verify your account.');
+                    } else {
+                        toast.success('Logged in successfully');
+                    }
                 } else {
-                    console.log("Fail")
+                    toast.error(response.data.err || 'An unexpected error occurred.');
                     setErrorFromDataBase(response.data.err || 'An unexpected error occurred.');
                 }
 
             } catch (error: any) {
+                toast.error(error.response.data.err || 'An unexpected error occurred.');
                 setErrorFromDataBase(error.response.data.err || "An unexpected error occurred.");
             } finally {
                 setIsLoading(false);
@@ -68,7 +74,11 @@ const LoginForm = ({ isLoginOpen, setIsLoginOpen }: { isLoginOpen: boolean, setI
     return (
         <>
             {isLoginOpen &&
-                <motion.section className={`${global.bottomGlass} ${styles.container__formSection}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }}>
+                <motion.section className={`${global.bottomGlass} ${styles.container__formSection}`}
+                    initial={{ y: 500, }}
+                    animate={{ y: 0 }}
+                    exit={{ y: 700 }}
+                    transition={{ type: 'spring', stiffness: 40 }}>
                     <div className={styles.loginUpper}>
                         <h2 className={global.h1Global}>{mode === 'login' ? 'Login To Continue' : 'Register To Continue'}</h2>
                         <button onClick={() => setIsLoginOpen(false)} className={styles.closeButton}>close</button>

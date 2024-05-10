@@ -1,6 +1,6 @@
 import React from 'react';
 import { useField } from 'formik';
-import styles from '../page.module.scss';
+import styles from '../../page.module.scss';
 const Textarea = ({ label, ...props } : { label: string, name: string, id: string }) => {
     const [field, meta] = useField(props);
     return (

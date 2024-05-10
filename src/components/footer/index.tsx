@@ -14,12 +14,13 @@ const Index = () => {
     const windowWidth = useWindowWidth();
 
     return (
-        <footer className={styles.footer} style={{ display: isAccountPage ? 'none' : 'block' }}>
+        <footer className={styles.footer} style={{ marginTop: isAccountPage ? '5rem' : '0' }}>
 
             <div className={styles.footer__footer}>
                 <div className={styles.footer__footer_logoz}>
                     <h2>f365 Movement</h2>
                 </div>
+
                 <div className={styles.footer__upper}>
                     <div className={styles.footer__upper_lower}>
                         {windowWidth && windowWidth > 996 ? (

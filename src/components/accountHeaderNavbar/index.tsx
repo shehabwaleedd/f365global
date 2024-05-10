@@ -21,7 +21,7 @@ const AccountHeaderNavbar = () => {
     return (
         <div className={styles.accountHeader}>
             <div className={styles.accountHeader__avatar} onClick={toggleProfileOpen}>
-                <Image src={avatarUrl} alt="User's Avatar" width={40} height={40} />
+                <Image src={avatarUrl ?? "/user.png"} alt="User's Avatar" width={40} height={40} />
             </div>
             <AnimatePresence>
                 {profileOpen && (

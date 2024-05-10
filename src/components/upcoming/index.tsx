@@ -9,7 +9,7 @@ import 'swiper/css/navigation';
 import styles from './style.module.scss'
 import useAllEvents from '../../lib/events/client/useAllEvents';;
 import Image from 'next/image';
-import CTA from '../../animation/CTA';
+import CTA from '@/animation/CTA';
 import AnimatedText from '../../animation/animatedText/AnimatedText';
 SwiperCore.use([Navigation, Pagination]);
 
@@ -66,7 +66,7 @@ const Upcoming = () => {
                         <div className={styles.upcoming__container__slide_content}>
                             <h2>{event.title}</h2>
                             <p>{event.description.replace(/<[^>]*>/g, '').slice(0, 100)}...</p>
-                            <CTA href={`/events/${event._id}`} label="View Event" />
+                            <CTA href={`/events/${event._id}`} label="View Event" backgroundColor='var(--accent-color)' />
                         </div>
                     </SwiperSlide>
                 ))}

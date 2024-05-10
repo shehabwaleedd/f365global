@@ -13,11 +13,19 @@ import LoginForm from '../loginForm/loginForm';
 
 const Navbar = () => {
     const [navOpen, setNavOpen] = useState<boolean>(false);
-    const { isLoggedIn, isLoginOpen, setIsLoginOpen, handleLoginOpenClick } = useAuth();
+    const { isLoggedIn } = useAuth();
+    const [isLoginOpen, setIsLoginOpen] = useState<boolean>(false);
     const router = usePathname();
     const toggleNavOpen = useCallback(() => {
         setNavOpen(prevNavOpen => !prevNavOpen);
     }, []);
+
+
+    const handleLoginOpenClick = () => {
+        setIsLoginOpen(!isLoginOpen);
+    }
+    
+
 
     useEffect(() => {
         setNavOpen(false);

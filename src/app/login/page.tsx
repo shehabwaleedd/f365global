@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import styles from "./page.module.scss"
 import { useAuth } from '@/context/AuthContext';
 import Image from 'next/image';
+import { toast } from 'sonner';
 
 const Page = () => {
     const [errorFromDataBase, setErrorFromDataBase] = useState('')
@@ -36,15 +37,17 @@ const Page = () => {
                 const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/user/login`, values);
 
                 if (response.status === 200 && response.data.message === "success") {
+                    toast.success('Login successful');
+                    toast.success("Redirecting to dashboard...");
                     handleLoginSuccess(response.data.token, response.data.data);
                 }
             } catch (err: any) {
                 let errorMessage = 'An unexpected error occurred during login.'; // Default error message
                 if (err.response && err.response.data) {
                     if (typeof err.response.data === 'object' && 'err' in err.response.data) {
-                        errorMessage = err.response.data.err;
+                        toast.error(err.response.data.err);
                     } else if (Array.isArray(err.response.data)) {
-                        errorMessage = (err.response.data as any[]).map(e => e.message || e).join('\n');
+                        toast.error((err.response.data as any[]).map(e => e.message || e).join('\n'));
                     }
                 }
                 setErrorFromDataBase(errorMessage);
@@ -53,13 +56,6 @@ const Page = () => {
             }
         },
     });
-
-    useEffect(() => {
-        if (isLoggedIn) {
-            router.push('/account');
-        }
-    }, [router]);
-
 
 
     return (

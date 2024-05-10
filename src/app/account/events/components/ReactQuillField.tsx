@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import dynamic from 'next/dynamic';
 import  { ReactQuillProps } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import styles from "../page.module.scss"
+import styles from '../unified.module.scss';
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
 interface ReactQuillFieldProps extends Omit<ReactQuillProps, 'onChange'> {
@@ -44,7 +44,7 @@ const ReactQuillField: FC<ReactQuillFieldProps> = ({ label, name, value, onChang
     };
 
     return (
-        <div className={styles.formField}>
+        <div className={styles.createEvent__container_content}>
             <label htmlFor={name}>{label}</label>
             <ReactQuill
                 className={styles.reactQuill}
@@ -54,7 +54,7 @@ const ReactQuillField: FC<ReactQuillFieldProps> = ({ label, name, value, onChang
                 placeholder={placeholder || ''}
                 modules={ReactQuillModules}
                 formats={ReactQuillFormats}
-                style={{ border: "none" }}
+                style={{ border: "none", marginBottom: "5rem" }}
             />
         </div>
     );

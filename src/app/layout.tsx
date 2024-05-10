@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 const Footer = dynamic(() => import("../components/footer"), { ssr: false });
 import { AuthProvider } from "../context/AuthContext";
 import { AnimationProvider } from "../context/AnimationContext";
-
+import { Toaster } from "sonner";
 export const viewport = {
   width: "device-width",
   height: "device-height",
@@ -74,6 +74,7 @@ export default function RootLayout({ children }: { children: JSX.Element | JSX.E
             <Navbar />
             <SmoothScrolling>
               {children}
+              <Toaster />
             </SmoothScrolling>
             <Footer />
           </AnimationProvider>

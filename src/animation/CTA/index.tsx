@@ -7,11 +7,12 @@ import Magnetic from '../Magnetic';
 import Link from 'next/link';
 import { FaArrowRight } from "react-icons/fa6";
 import { TransitionLink } from '../../components/transitionLink';
-const CTA = ({ label, href }) => {
+const CTA = ({ label, href, backgroundColor }: { label: string; href: string; backgroundColor: string }) => {
 
   const circle = useRef(null);
-  let timeline = useRef(null);
-  let timeoutId = null;
+  const timeline = useRef<gsap.core.Timeline | null>(null);
+  let timeoutId: NodeJS.Timeout | null = null;
+  
   useEffect(() => {
     timeline.current = gsap.timeline({ paused: true })
     timeline.current
@@ -19,14 +20,15 @@ const CTA = ({ label, href }) => {
       .to(circle.current, { top: "-150%", width: "125%", duration: 0.25 }, "exit")
   }, [])
 
+
   const manageMouseEnter = () => {
     if (timeoutId) clearTimeout(timeoutId)
-    timeline.current.tweenFromTo('enter', 'exit');
+    timeline.current?.tweenFromTo('enter', 'exit'); // Use optional chaining to access the timeline methods
   }
 
   const manageMouseLeave = () => {
     timeoutId = setTimeout(() => {
-      timeline.current.play();
+      timeline.current?.play();
     }, 300)
   }
 
@@ -37,7 +39,7 @@ const CTA = ({ label, href }) => {
           <TransitionLink href={`${href}`} label={label} />
         </Link>
         <FaArrowRight style={{ color: "var(--title-color)" }} />
-        <div ref={circle} className={styles.circle} style={{ backgroundColor: "var(--accent-color)" }}></div>
+        <div ref={circle} className={styles.circle} style={{ backgroundColor }}></div>
       </div>
     </Magnetic>
   )

@@ -4,7 +4,7 @@ import styles from "./style.module.scss";
 import Image from 'next/image';
 import { useScroll, useTransform, motion } from 'framer-motion';
 import useWindowWidth from '../../hooks/useWindowWidth';
-import CTA from '../../animation/CTA';
+import CTA from '@/animation/CTA';
 import { services } from '../servicesData';
 import AnimatedText from '../../animation/animatedText/AnimatedText';
 
@@ -57,8 +57,9 @@ const ServiceItem = ({ service, index } : { service: Service, index: number}) =>
                         ))}
                     </ul>
                     <div className={styles.group}>
-                        <CTA href={`/services/${service.serviceTitle}`} label="Read More" />
-                        <CTA href="/contact" label="Contact Us" />
+                        <CTA href={`/services/${service.serviceTitle}`} label="Read More" backgroundColor='var(--accent-color)'
+                        />
+                        <CTA href="/contact" label="Contact Us"  backgroundColor='#5bd891'/>
                     </div>
                 </div>
             </motion.div>

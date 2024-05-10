@@ -108,9 +108,6 @@ const Opening = () => {
                 <div className={styles.loader__wrapper} ref={openingRef}>
                     <div className={styles.loader__progressWrapper}>
                         <div className={styles.loader__progress} ref={progressRef}></div>
-                        <span className={styles.loader__progressNumber} ref={progressNumberRef}>
-                            0
-                        </span>
                     </div>
                     <div className={styles.loader} ref={loaderRef}>
                         <div className={styles.loader__words}>

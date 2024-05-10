@@ -1,9 +1,10 @@
 import styles from './style.module.scss'
 import { motion } from 'framer-motion';
+import global from "../../app/page.module.scss"
 
 export default function Calendly({ onClose } : { onClose:() => void }) {
     return (
-        <motion.section className={styles.modalBackground} initial={{ y: "100vh" }} animate={{  y: 0 }} transition={{ duration: 1, type: "spring", ease: [0.42, 0, 0.58, 1] }} exit={{  y: "100vh" }}>
+        <motion.section className={`${styles.modalBackground} ${global.bottomGlass}`} initial={{ y: "100vh" }} animate={{  y: 0 }} transition={{ duration: 1, type: "spring", ease: [0.42, 0, 0.58, 1] }} exit={{  y: "100vh" }}>
             <div className={styles.modalContainer}>
                 <button onClick={onClose} className={styles.closeButton}><span>X</span></button>
                 <iframe

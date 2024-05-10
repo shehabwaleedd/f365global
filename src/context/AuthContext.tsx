@@ -4,7 +4,7 @@ import React, { createContext, useContext, useMemo, useState, useEffect, ReactNo
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import { UserType } from '@/types/common';
-
+import axios from 'axios';
 interface AuthContextType {
     user: UserType | null;
     error: string;
@@ -36,7 +36,7 @@ interface AuthProviderProps {
 }
 
 interface UserResponse {
-    data: UserType[];
+    data: UserType;
 }
 
 
@@ -49,11 +49,39 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
     const [isLoginOpen, setIsLoginOpen] = useState<boolean>(false);
-
+    const token = Cookies.get("token")
     const router = useRouter();
 
+    const fetchUser = async () => { 
+        setLoading(true);
+        try {
+            const response = await axios.get<UserResponse>(`${process.env.NEXT_PUBLIC_BASE_URL}/user/profile`, {
+                headers: {
+                    token
+                }
+            });
+            setUser(response.data.data);
+        } catch (error) {
+            setError('Failed to fetch user data');
+        } finally {
+            setLoading(false);
+        }
+    }
 
 
+    const authCheck = () => {
+        if (token) {
+            setIsLoggedIn(true);
+            fetchUser();
+        } else {
+            setIsLoggedIn(false);
+
+        }
+    }
+
+    useEffect(() => {
+        authCheck();
+    }, [token]);
 
     const handleLoginSuccess = (token: string, userData: UserType) => {
         Cookies.set('token', token, { expires: new Date(new Date().getTime() + 30 * 60 * 1000)});   
@@ -96,8 +124,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     const handleLoginOpenClick = () => {
-        setIsLoginOpen(true);
+        setIsLoginOpen(prevState => !prevState); 
+        console.log('Login Status:', isLoginOpen); 
     }
+
+    useEffect(() => {
+        console.log('Login Open Updated:', isLoginOpen);
+    }, [isLoginOpen]);
 
 
     const authValue: AuthContextType = useMemo(() => ({
@@ -114,7 +147,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setIsLoginOpen,
         handleLoginOpenClick,
         handleLoginSuccessForm
-    }), [user, isLoggedIn, loading, error, setIsLoggedIn, isLoginOpen]);
+    }), [user, isLoggedIn]);
     return (
         <AuthContext.Provider value={authValue}>
             {children}

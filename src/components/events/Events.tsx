@@ -18,7 +18,7 @@ const Events = () => {
                 <p>
                     join us for <br /> our upcoming <br /> <span style={{color: "var(--accent-color)"}}>exclusive events.</span>
                 </p>
-                <CTA label="Explore All Events" href="/events" />
+                <CTA label="Explore All Events" href="/events" backgroundColor='var(--accent-color)'/>
             </div>
             <div className={styles.events_right}>
                 <Suspense fallback={<Loading height={100} />}>

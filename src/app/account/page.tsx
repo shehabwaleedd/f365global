@@ -34,7 +34,7 @@ const Account = () => {
         const token = localStorage.getItem('token');
         const avatar = user?.avatar;
         const formData = new FormData();
-        if (avatar) formData.append('avatar', avatar.url);
+        if (avatar && avatar.url) formData.append('avatar', avatar.url);
         if (event?.currentTarget?.files) {
             formData.append('avatar', event.currentTarget.files[0]);
         }
@@ -75,7 +75,7 @@ const Account = () => {
                 <div className={styles.account__lower_left}>
                     <div className={styles.account__lower_left_upper}>
                         <div className={styles.account_lower_left_upper_top}>
-                            <Image src={user?.avatar ? user.avatar.url : '/user.png'} alt="user" width={300} height={300} quality={100} priority={true} />
+                            <Image src={user?.avatar?.url ?? '/user.png'} alt="user" width={300} height={300} quality={100} priority={true} />
                         </div>
 
                         <div className={styles.account_lower_left_upper_middle}>

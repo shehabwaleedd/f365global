@@ -1,6 +1,6 @@
 import React from 'react';
 import { useField } from 'formik';
-import styles from '../page.module.scss';
+import styles from '../../page.module.scss';
 interface SelectInputProps {
     label: string,
     options: string[],

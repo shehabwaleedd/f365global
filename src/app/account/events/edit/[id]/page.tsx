@@ -14,15 +14,16 @@ import { motion } from 'framer-motion';
 import Loading from '../../../../../animation/loading/Loading';
 import Link from 'next/link';
 import { IoArrowBack } from "react-icons/io5";
+import { toast } from 'sonner';
+import { ImageFile } from '@/types/common';
 
 const EditEvent = ({ params: { id } }: { params: { id: string; } }) => {
     const router = useRouter();
     const [mainImg, setMainImg] = useState<File | null>(null);
     const [eventImagePreview, setEventImagePreview] = useState<string | null>(null);
     const [eventLocationType, setEventLocationType] = useState<string>('online');
-    const [currentImages, setCurrentImages] = useState<{ url: string }[]>([]);
-    const [newImageFiles, setNewImageFiles] = useState<File[]>([]);
-
+    const [images, setImages] = useState<ImageFile[] | null>(null);
+    const [imagePreviews, setImagePreviews] = useState<string[]>([]);
     const categories = ['Music', 'Art', 'Food', 'Sports', 'Tech', 'Business', 'Health', 'Fashion', 'Film', 'Science', 'Travel', 'Charity', 'Community', 'Family', 'Education', 'Auto', 'Hobbies', 'Other'];
 
     const generateTimeOptions = () => {
@@ -47,18 +48,25 @@ const EditEvent = ({ params: { id } }: { params: { id: string; } }) => {
     };
 
 
+    const handleImagesChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files) {
+            const filesArray = Array.from(event.target.files);
+            const imageFiles: ImageFile[] = filesArray.map(file => ({ file }));
+            setImages(imageFiles);
+            setImagePreviews(filesArray.map(file => URL.createObjectURL(file)));
+        }
+    };
+
+
     useEffect(() => {
         if (!loading && event) {
-            setEventImagePreview(event.mainImg?.url);
+            setEventImagePreview(event.mainImg?.url || "");
             setEventLocationType(event.location);
+            setImagePreviews(event.images.map(img => img.url));
+
         }
     }, [event, loading]);
 
-    useEffect(() => {
-        if (event && event.images) {
-            setCurrentImages(event.images.map(image => ({ url: image.url })));
-        }
-    }, [event]);
 
     const labelVariants = {
         active: {
@@ -92,6 +100,9 @@ const EditEvent = ({ params: { id } }: { params: { id: string; } }) => {
             country: event?.country || '',
             city: event?.city || '',
             googleMapLink: event?.googleMapLink || '',
+            seoTitle: event?.seoTitle || '',
+            seoDescription: event?.seoDescription || '',
+            seoKeywords: event?.seoKeywords || '',
         },
 
         validationSchema: Yup.object({
@@ -109,6 +120,10 @@ const EditEvent = ({ params: { id } }: { params: { id: string; } }) => {
             googleMapLink: Yup.string().min(10, 'Google map link is too short').max(1000, 'Google map link is too long'),
             country: Yup.string().min(2, 'Country is too short').max(50, 'Country is too long'),
             city: Yup.string().min(2, 'City is too short').max(50, 'City is too long'),
+            seoTitle: Yup.string().min(10, 'SEO title is too short').max(70, 'SEO title is too long'),
+            seoDescription: Yup.string().min(10, 'SEO description is too short').max(150, 'SEO description is too long'),
+            seoKeywords: Yup.string().min(10, 'SEO keywords is too short').max(150, 'SEO keywords is too long'),
+
         }),
         onSubmit: async (values) => {
             const formData = new FormData();
@@ -117,11 +132,6 @@ const EditEvent = ({ params: { id } }: { params: { id: string; } }) => {
             } else {
                 console.error("No main image selected");
             }
-            if (newImageFiles && newImageFiles.length) {
-                for (let i = 0; i < newImageFiles.length; i++) {
-                    formData.append('images', newImageFiles[i]);
-                }
-            }
             formData.append('title', values.title);
             formData.append('description', values.description);
             formData.append('dateOfEvent', values.dateOfEvent);
@@ -129,6 +139,10 @@ const EditEvent = ({ params: { id } }: { params: { id: string; } }) => {
             formData.append('timeOfEvent[to]', values.timeOfEvent.to);
             formData.append('category', values.category);
             formData.append('location', values.location);
+            formData.append('seoTitle', values.seoTitle);
+            formData.append('seoDescription', values.seoDescription);
+            formData.append('seoKeywords', values.seoKeywords);
+
             if (values.googleMapLink) {
                 formData.append('googleMapLink', values.googleMapLink);
             }
@@ -141,9 +155,12 @@ const EditEvent = ({ params: { id } }: { params: { id: string; } }) => {
             } else {
                 formData.append('locationDetails', values.locationDetails);
             }
+            if (images) {
+                images.forEach((image, index) => {
+                    formData.append(`images`, image.file);
+                });
+            }
 
-            console.log('Form values on submit:', values);
-            console.log('Validation errors:', formik.errors); // Debugging log
 
             try {
                 const response = await axios.patch(`${process.env.NEXT_PUBLIC_BASE_URL}/event/${id}`,
@@ -155,13 +172,13 @@ const EditEvent = ({ params: { id } }: { params: { id: string; } }) => {
                 });
 
                 if (response.status === 200) {
-                    console.log('Response:', response);
+                    toast.success('Event updated successfully');
                     router.push('/account');
                 } else {
-                    throw new Error('Failed to update event');
+                    toast.error('Failed to update event');
                 }
             } catch (error: any) {
-                console.log('Error:', error.response ? error.response.data : error.message);
+                toast.error(error.response ? error.response.data.err : 'Failed to update event');
             }
         },
         enableReinitialize: true,
@@ -176,12 +193,14 @@ const EditEvent = ({ params: { id } }: { params: { id: string; } }) => {
 
     return (
         <main className={styles.editEvent}>
-            <form onSubmit={formik.handleSubmit} className={styles.editEvent__form}>
+            <section className={styles.upper}>
                 <Link href="/account">
                     <IoArrowBack />
                     <span>Back to Account</span>
                 </Link>
                 <h1>Edit your event</h1>
+            </section>
+            <form onSubmit={formik.handleSubmit} className={styles.editEvent__form}>
                 <div className={styles.editEvent__container_content}>
                     <div className={styles.editEvent__container_content}>
                         <label htmlFor="mainImg">Event&apos;s Image</label>
@@ -205,6 +224,40 @@ const EditEvent = ({ params: { id } }: { params: { id: string; } }) => {
                         value={formik.values.title}
                     />
                 </div>
+                {formik.touched.title || formik.errors.title && <div>{formik.errors.title}</div>}
+                <div className={styles.editEvent__container_content}>
+                    <label htmlFor="seoTitle">SEO Title</label>
+                    <input
+                        type="text"
+                        id="seoTitle"
+                        name="seoTitle"
+                        onChange={formik.handleChange}
+                        value={formik.values.seoTitle}
+                    />
+                </div>
+                {formik.touched.seoTitle || formik.errors.seoTitle && <div>{formik.errors.seoTitle}</div>}
+                <div className={styles.editEvent__container_content}>
+                    <label htmlFor="seoDescription">SEO Description</label>
+                    <input
+                        type="text"
+                        id="seoDescription"
+                        name="seoDescription"
+                        onChange={formik.handleChange}
+                        value={formik.values.seoDescription}
+                    />
+                </div>
+                {formik.touched.seoDescription || formik.errors.seoDescription && <div>{formik.errors.seoDescription}</div>}
+                <div className={styles.editEvent__container_content}>
+                    <label htmlFor="seoKeywords">SEO Keywords</label>
+                    <input
+                        type="text"
+                        id="seoKeywords"
+                        name="seoKeywords"
+                        onChange={formik.handleChange}
+                        value={formik.values.seoKeywords}
+                    />
+                </div>
+                {formik.touched.seoKeywords || formik.errors.seoKeywords && <div>{formik.errors.seoKeywords}</div>}
                 <div className={styles.group}>
                     <div className={styles.editEvent__container_content}>
                         <label htmlFor="dateOfEvent">Event&apos;s Date</label>
@@ -393,6 +446,12 @@ const EditEvent = ({ params: { id } }: { params: { id: string; } }) => {
                         value={formik.values.description}
                     />
                 </div>
+                <input type="file" multiple onChange={handleImagesChange} accept="image/*" />
+                {imagePreviews && <div className={styles.wrap}>
+                    {imagePreviews.map((preview, index) => (
+                        <Image key={index} src={preview} alt={`Image ${index}`} width={250} height={220} />
+                    ))}
+                </div>}
                 {formik.touched.description || formik.errors.description && <div>{formik.errors.description}</div>}
                 <div className={styles.editEvent__container_content}>
                     <button type="submit" disabled={formik.isSubmitting}>{formik.isSubmitting ? 'Updating...' : 'Update'}</button>

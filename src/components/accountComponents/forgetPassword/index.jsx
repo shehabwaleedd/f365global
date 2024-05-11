@@ -6,10 +6,10 @@ import * as Yup from 'yup';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../../context/AuthContext';
 import styles from "./style.module.scss";
+import { toast } from 'sonner';
 
 const ForgotPassword = () => {
     const { user } = useAuth();
-    const userRegisteredEmail = user?.email;
     const [step, setStep] = useState(1); 
     const [emailForReset, setEmailForReset] = useState(''); 
     const [verificationCode, setVerificationCode] = useState('');
@@ -51,7 +51,7 @@ const ForgotPassword = () => {
                 case 1:
                     // Check if the entered email matches the user's registered email
                     if (values.email !== user?.email) {
-                        alert('The provided email does not match the registered email.');
+                        toast.error('The provided email does not match the registered email.');
                         break;
                     }
                     // If email matches, proceed with sending the verification code
@@ -69,8 +69,9 @@ const ForgotPassword = () => {
 
                     if (response.data.message === 'success' && response.data.data === 'correct code') {
                         setStep(3); // If verification successful, proceed to password reset
+                        toast.success('Verification code is correct.')
                     } else {
-                        alert('Verification code is incorrect.');
+                        toast.error('Verification code is incorrect.');
                     }
                     break;
                 case 3:
@@ -80,16 +81,16 @@ const ForgotPassword = () => {
                         newPassword: values.newPassword,
                         code: verificationCode, // Include the code from step 2
                     });
-                    alert('Your password has been updated successfully!');
+                    toast.success('Your password has been updated successfully!');
                     resetForm();
-                    setStep(1); // Reset to the initial step
+                    setStep(1);
                     break;
                 default:
                     break;
             }
         } catch (error) {
             console.error('An error occurred:', error.response?.data?.err || 'Please try again later.');
-            alert(error.response?.data?.err || 'An error occurred. Please try again later.');
+            toast.error(error.response?.data?.err || 'An error occurred. Please try again later.');
         } finally {
             setSubmitting(false);
         }

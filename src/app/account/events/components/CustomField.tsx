@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Field, ErrorMessage } from "formik";
 import styles from '../unified.module.scss';
 import { CustomFieldProps } from "@/types/common";
 import { format } from 'date-fns';
-
-
+import { toast } from "sonner";
+import { useFormikContext } from 'formik';
 
 const CustomField: React.FC<CustomFieldProps> = ({ name, label, fieldType = "input", setFieldValue, options, onChange }) => {
+    const { errors, touched } = useFormikContext();
+    useEffect(() => {
+        if (touched[name as keyof typeof touched] && errors[name as keyof typeof errors]) {
+            toast.error(errors[name as keyof typeof errors]);
+        }
+    }, [touched, errors, name]);
+    
     if (fieldType === "file") {
         return (
             <div className={styles.formField}>
@@ -19,7 +26,6 @@ const CustomField: React.FC<CustomFieldProps> = ({ name, label, fieldType = "inp
                     accept="image/*"
                     multiple={name === "images"}
                 />
-                <ErrorMessage name={name} component="div" className={styles.error} />
             </div>
         );
     } else if (fieldType === "select" && options) {
@@ -32,7 +38,6 @@ const CustomField: React.FC<CustomFieldProps> = ({ name, label, fieldType = "inp
                         <option key={index} value={option.value}>{option.label}</option>
                     ))}
                 </Field>
-                <ErrorMessage name={name} component="div" className={styles.error} />
             </div>
         );
     } else if (fieldType === "date") {
@@ -41,7 +46,6 @@ const CustomField: React.FC<CustomFieldProps> = ({ name, label, fieldType = "inp
             <div className={styles.formField}>
                 <label htmlFor={name}>{label}</label>
                 <Field as="input" type="date" name={name} min={today} />
-                <ErrorMessage name={name} component="div" className={styles.error} />
             </div>
         );
     } else {
@@ -57,7 +61,6 @@ const CustomField: React.FC<CustomFieldProps> = ({ name, label, fieldType = "inp
                         placeholder={label}
                     />
                 )}
-                <ErrorMessage name={name} component="div" className={styles.error} />
             </div>
         );
     }

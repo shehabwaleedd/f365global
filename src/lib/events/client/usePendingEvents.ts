@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import axios from 'axios'
 import { EventType } from '@/types/common';
+import { toast } from 'sonner';
 
 export const usePendingEvents = () => {
     const [pendingEvents, setPendingEvents] = useState<EventType[]>([])
@@ -30,12 +31,13 @@ export const usePendingEvents = () => {
                 headers: { token: localStorage.getItem("token") },
             });
             if (response.status === 200) {
-                const filteredEvents = response.data.data.result.filter((event: EventType)  => event.status === "pending");
+                const filteredEvents = response.data.data.result.filter((event: EventType) => event.status === "pending");
                 setPendingEvents(filteredEvents);
+                toast.success("Events refreshed successfully.");
             }
         } catch (error) {
             console.error("Error fetching updated events:", error);
-            alert("Failed to refresh events.");
+            toast.error("Failed to refresh events.");
         }
     };
 

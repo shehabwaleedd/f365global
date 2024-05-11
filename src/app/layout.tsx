@@ -74,7 +74,7 @@ export default function RootLayout({ children }: { children: JSX.Element | JSX.E
             <Navbar />
             <SmoothScrolling>
               {children}
-              <Toaster />
+              <Toaster richColors expand={true} />
             </SmoothScrolling>
             <Footer />
           </AnimationProvider>

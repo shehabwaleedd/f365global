@@ -10,6 +10,7 @@ import CTA from '../../../../../animation/CTA';
 import { useAuth } from '@/context/AuthContext';
 import RoundedButton from '@/animation/RoundedButton';
 import { EventType, UserType } from '@/types/common';
+import { toast } from 'sonner';
 
 interface RenderEventStatusType {
     isLoggedIn: boolean,
@@ -25,11 +26,11 @@ const RenderEventStatus: React.FC<RenderEventStatusType> = ({ isLoggedIn, event,
     const joinEvent = async (eventId: string) => {
         const token = localStorage.getItem('token');
         if (!user) {
-            alert("Please login to join the event.");
+            toast.error("Please login to join the event.");
             return;
         }
         if (!token) {
-            alert("No token found. Please log in again.");
+            toast.error("No token found. Please log in again.");
             return;
         }
         const isConfirm = confirm("Are you sure you want to join this event?");
@@ -42,7 +43,7 @@ const RenderEventStatus: React.FC<RenderEventStatusType> = ({ isLoggedIn, event,
 
                 console.log('Response:', response); // Debug log
                 if (response.status === 200) {
-                    alert("Successfully joined the event!");
+                    toast.success("Successfully joined the event!");
                     setHasParticipated(true);
                 } else {
                     console.log('Failed to join event with status:', response.status); // Debug log
@@ -50,7 +51,7 @@ const RenderEventStatus: React.FC<RenderEventStatusType> = ({ isLoggedIn, event,
                 }
             } catch (error) {
                 console.error('Error joining the event:', error);
-                alert("Failed to join the event. Please try again later.");
+                toast.error("Failed to join the event. Please try again later.");
             }
         }
     };
@@ -69,7 +70,7 @@ const RenderEventStatus: React.FC<RenderEventStatusType> = ({ isLoggedIn, event,
             <div className={styles.event__lower__container_right_content}>
                 <h3>Event has ended</h3>
                 <p>View more updates and events in {event.createdBy?.name}&apos;s portal</p>
-                <CTA label={`${event.createdBy?.name}'s Portal`} href={`/users/${event.createdBy?._id}?fetchParam1=${event.createdBy?.name}&fetchParam2=${event.createdBy?.avatar?.url}`} />
+                <CTA label={`${event.createdBy?.name}'s Portal`} href={`/users/${event.createdBy?._id}?fetchParam1=${event.createdBy?.name}&fetchParam2=${event.createdBy?.avatar?.url}`} backgroundColor='var(--accent-color)'/>
             </div>
         );
     } else {

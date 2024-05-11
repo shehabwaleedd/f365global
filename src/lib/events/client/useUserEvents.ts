@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { EventType } from '@/types/common';
+import { toast } from 'sonner';
 
 export const useUserEvents = (userId: string) => {
     const [events, setEvents] = useState<EventType[]>([]);
@@ -42,7 +43,7 @@ export const useUserEvents = (userId: string) => {
             }
         } catch (error) {
             console.error('Error fetching updated events:', error);
-            alert('Failed to refresh events.');
+            toast.error('Failed to refresh events.');
         } finally {
             setLoading(false);
         }

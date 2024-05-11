@@ -4,6 +4,7 @@ import { BsTwitterX, BsLinkedin, BsWhatsapp } from "react-icons/bs";
 import { FaFacebookF } from "react-icons/fa6";
 import { IoCopyOutline } from "react-icons/io5";
 import { EventType } from '@/types/common';
+import { toast } from 'sonner';
 
 interface ShareDropDownType {
     event: EventType | null,
@@ -42,9 +43,9 @@ const ShareDropdown: React.FC<ShareDropDownType> = ({ event, setShowShareOptions
         const url = `https://f365-one.vercel.app/events/${event?._id}`;
         try {
             await navigator.clipboard.writeText(url);
-            alert('Link copied to clipboard!');
-        } catch (err) {
-            console.error('Failed to copy link:', err);
+            toast.success('Link copied to clipboard!');
+        } catch (err: any) {
+            toast.error('Failed to copy link:', err);
         }
     };
 

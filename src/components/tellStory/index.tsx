@@ -2,8 +2,11 @@
 import styles from './style.module.scss'
 import { motion } from 'framer-motion';
 import emailjs from '@emailjs/browser';
-import { useFormik } from 'formik';
+import { useFormik, FormikHelpers, Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import useWindowWidth from '@/hooks/useWindowWidth';
+import common from "@/app/page.module.scss"
+import CustomField from '@/app/account/events/components/CustomField';
 
 const validationSchema = Yup.object({
     name: Yup.string().required('Name is required'),
@@ -15,101 +18,68 @@ const validationSchema = Yup.object({
 
 type FormValuesType = {
     name: string;
-    email:string
+    email: string;
+    message: string;
+    gender: string;
+    age: number;
 }
 
+const genderOptions = [
+    { value: 'male', label: 'Male' },
+    { value: 'female', label: 'Female' },
+    { value: 'other', label: 'Other' }
+];
 
 
-export default function TellUsYourStory({ onClose } : { onClose: () => void;}) {
+export default function TellUsYourStory({ onClose }: { onClose: () => void; }) {
+    const windowWidth = useWindowWidth()
+    const isMobile = windowWidth !== null && windowWidth < 768;
+    const initialValues = {
+        name: '',
+        email: '',
+        message: '',
+        gender: '',
+        age: 0,
+    }
 
-    const formik = useFormik({
-        initialValues: {
-            name: '',
-            email: '',
-            gender: '',
-            age: '',
-            message: '',
-        },
-        validationSchema,
-        onSubmit: (values: FormValuesType, { setSubmitting, resetForm }: { setSubmitting: boolean, resetForm: () => void }) => {
-            emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', values, 'YOUR_USER_ID')
-                .then((result) => {
-                    console.log(result.text);
-                    // Handle successful submission here
-                }, (error) => {
-                    console.log(error.text);
-                    // Handle errors here
-                })
-                .finally(() => {
-                    setSubmitting = false;
-                    resetForm();
-                });
-        },
-    });
+    const handleSubmit = async (values: FormValuesType, { setSubmitting, resetForm }: FormikHelpers<FormValuesType>) => {
+        emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', values, 'YOUR_USER_ID')
+    }
+
 
     return (
-        <motion.section className={styles.tellUsYourStory} initial={{ y: "100vh" }} animate={{ y: 0 }} transition={{ duration: 1, type: "spring", ease: [0.42, 0, 0.58, 1] }} exit={{ y: "100vh" }}>
+        <motion.section className={`${styles.tellUsYourStory} ${common.bottomGlass}`} initial={{ y: "100vh" }} animate={{ y: 0 }} transition={{ duration: 1, type: "spring", ease: [0.42, 0, 0.58, 1] }} exit={{ y: "100vh" }}>
             <div className={styles.tellUsYourStory__close}>
                 <button onClick={onClose} className={styles.closeButton}>
                     <span>X</span>
                 </button>
             </div>
             <h2>Tell Us Your Story</h2>
-            <form onSubmit={formik.handleSubmit} className={styles.tellUsYourStory__form}>
-                <input
-                    type="text"
-                    name="name"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.name}
-                    placeholder="Your Name"
-                />
-                {formik.touched.name && formik.errors.name ? <div className={styles.tellUsYourStory__error}>{formik.errors.name}</div> : null}
+            <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={handleSubmit}
+                enableReinitialize
+                className={styles.tellUsYourStory__form}
+            >
+                {({ values, setFieldValue, isSubmitting }) => (
 
-                <input
-                    type="email"
-                    name="email"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.email}
-                    placeholder="Your Email"
-                />
-                {formik.touched.email && formik.errors.email ? <div className={styles.tellUsYourStory__error}>{formik.errors.email}</div> : null}
+                    <Form className={styles.tellUsYourStory__form}>
+                        <div className={styles.tellUsYourStory__form__group}>
+                            <CustomField name="name" label="Name" fieldType='input' />
+                            <CustomField name="email" label="Email" fieldType='input' />
+                        </div>
+                        <div className={styles.tellUsYourStory__form__group}>
+                            <CustomField name='gender' label='Gender' fieldType='select' options={genderOptions} />
+                            <CustomField name='age' label='Age' fieldType='input' />
+                        </div>
+                        <CustomField name='message' label='Message' fieldType='textarea' />
+                        <button className={common.submitButton} type="submit" disabled={isSubmitting}>{isSubmitting ? 'Submitting...' : 'Submit'}</button>
+                    </Form>
 
-                <select
-                    name="gender"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.gender}
-                >
-                    <option value="" label="Select a gender" />
-                    <option value="female" label="Female" />
-                    <option value="male" label="Male" />
-                    <option value="other" label="Other" />
-                </select>
-                {formik.touched.gender && formik.errors.gender ? <div className={styles.tellUsYourStory__error}>{formik.errors.gender}</div> : null}
+                )}
 
-                <input
-                    type="number"
-                    name="age"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.age}
-                    placeholder="Your Age"
-                />
-                {formik.touched.age && formik.errors.age ? <div className={styles.tellUsYourStory__error}>{formik.errors.age}</div> : null}
-
-                <textarea
-                    name="message"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.message}
-                    placeholder="Your Message/Story"
-                />
-                {formik.touched.message && formik.errors.message ? <div className={styles.tellUsYourStory__error}>{formik.errors.message}</div> : null}
-
-                <button type="submit" className={styles.story__btn} disabled={formik.isSubmitting}>{formik.isSubmitting ? "Submitting..." : "Submit"}</button>
-            </form>
+            </Formik>
 
         </motion.section>
     );

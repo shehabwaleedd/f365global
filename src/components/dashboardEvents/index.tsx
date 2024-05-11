@@ -7,8 +7,9 @@ import Loading from '../../animation/loading/Loading'
 import axios from 'axios'
 import { useAuth } from '../../context/AuthContext'
 import { EventType } from '@/types/common'
+import { toast } from 'sonner'
 
-const DashboardEvents = ({ events, loading, title, refreshEvents } : {
+const DashboardEvents = ({ events, loading, title, refreshEvents }: {
     events: EventType[];
     loading: boolean;
     title: string;
@@ -34,21 +35,20 @@ const DashboardEvents = ({ events, loading, title, refreshEvents } : {
                 });
 
                 if (response.status === 200) {
-                    alert("Event deleted successfully.");
-                    await refreshEvents();
+                    toast.success("Event deleted successfully. Refresh to see changes");
+
                 } else {
                     throw new Error("Failed to delete event.");
                 }
             } catch (error) {
                 console.error("Error deleting event:", error);
-                alert("There was a problem deleting the event, please try again later.");
+                toast.error("There was a problem deleting the event, please try again later.");
             }
         }
     };
 
     // changing event.status to approved 
     const handlePublishClick = async (eventId: string) => {
-        console.log('User Role:', user?.role);
         const isConfirmed = window.confirm("Are you sure you want to publish this event?");
         if (isConfirmed) {
             try {
@@ -63,14 +63,14 @@ const DashboardEvents = ({ events, loading, title, refreshEvents } : {
 
                 // Check if the request was successful
                 if (response.status === 200) {
-                    alert("Event published successfully.");
-                    await refreshEvents();
+                    toast.success("Event published successfully. Refresh to see changes");
+
                 } else {
                     throw new Error("Failed to publish event.");
                 }
             } catch (error) {
                 console.error("Error publishing event:", error);
-                alert("There was a problem publishing the event, please try again later.");
+                toast.error("There was a problem publishing the event, please try again later.");
             }
         }
     };
@@ -91,14 +91,13 @@ const DashboardEvents = ({ events, loading, title, refreshEvents } : {
 
                 // Check if the request was successful
                 if (response.status === 200) {
-                    alert("Event display status changed successfully.");
-                    await refreshEvents();
+                    toast.success("Event display status changed successfully. Refresh to see changes");
                 } else {
                     throw new Error("Failed to change event display status.");
                 }
             } catch (error) {
                 console.error("Error changing event display status:", error);
-                alert("There was a problem changing the event display status, please try again later.");
+                toast.error("There was a problem changing the event display status, please try again later.");
             }
         }
     };
@@ -118,7 +117,7 @@ const DashboardEvents = ({ events, loading, title, refreshEvents } : {
                 {events.map((event, index) => (
                     <div key={index} className={styles.userEvents__container_card}>
                         <div className={styles.userEvents__container_card_top}>
-                            <Image src={event.mainImg ? event.mainImg.url : "/noimage.png"} alt={event.title} width={500} height={500} quality={100} />
+                            <Image src={event.mainImg?.url ?? "/noimage.png"} alt={event.title} width={500} height={500} quality={100} />
                             <div className={styles.userEvents__container_card_top_bottom}>
                                 <div className={styles.userEvents__container_card_top_bottom_upper}>
                                     <>

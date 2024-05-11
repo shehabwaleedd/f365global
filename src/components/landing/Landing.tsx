@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './style.module.scss'
 import Link from 'next/link'
 import Magnetic from '../../animation/Magnetic'
@@ -22,6 +22,17 @@ const Landing = () => {
         setTellUsYourStory(!tellUsYourStory)
     }
 
+
+    useEffect(() => {
+        if (becomePartner || tellUsYourStory) {
+            document.body.style.backgroundColor = 'rgba(0, 0, 0, 0.1)';
+            document.body.style.overflow = 'hidden';
+
+        } else {
+            document.body.style.backgroundColor = 'var(--background-color)';
+            document.body.style.overflow = 'auto'
+        }
+    }, [becomePartner, tellUsYourStory])
 
     let steps = 0;
     let currentIndex = 0;
@@ -49,7 +60,7 @@ const Landing = () => {
     }
 
     const moveImage = (x: number, y: number) => {
-        const currentImage = refs[currentIndex].current as HTMLDivElement; 
+        const currentImage = refs[currentIndex].current as HTMLDivElement;
         currentImage.style.left = x + "px";
         currentImage.style.top = y + "px";
         currentImage.style.display = "block";
@@ -117,10 +128,14 @@ const Landing = () => {
 
                             )}
                         </div>
-                        {
-                            refs.map((ref: any, index: number) => (
-                                <Image key={index} onClick={() => { console.log(refs) }} ref={ref} src={`/images/${index}.webp`} alt='sdasd' width={500} height={500} className={styles.abImg} />
-                            ))
+                        {windowWidth && windowWidth > 1222 &&
+                            <>
+                                {
+                                    refs.map((ref: any, index: number) => (
+                                        <Image key={index} onClick={() => { console.log(refs) }} ref={ref} src={`/images/${index}.webp`} alt='sdasd' width={500} height={500} className={styles.abImg} />
+                                    ))
+                                }
+                            </>
                         }
                         <div className={styles.landing__left_content_bottom}>
                             {windowWidth && windowWidth > 1200 ? (

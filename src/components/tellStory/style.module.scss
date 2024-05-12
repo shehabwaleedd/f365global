@@ -55,6 +55,10 @@
 
             &:hover {
                 color: var(--container-color);
+                background-color: var(--accent-color);
+                span {
+                    color: var(--title-color);
+                }
             }
         }
     }
@@ -63,8 +67,8 @@
         color: var(--title-color);
         font-family: var(--title-font);
         text-transform: capitalize;
-        margin-bottom: 2rem;
         text-align: left;
+        padding-left: 1rem;
 
         @media (max-width: 577px) {
             font-size: 2rem;
